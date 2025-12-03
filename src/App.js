@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, Menu, X } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, Menu, X, Moon, Sun } from 'lucide-react';
 
 const Portfolio = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
 
   const projects = [
     {
@@ -23,35 +28,46 @@ const Portfolio = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gradient-to-br from-slate-900 to-slate-800' : 'bg-gradient-to-br from-slate-50 to-slate-100'}`}>
       {/* Navigation */}
-      <nav className="bg-white shadow-sm sticky top-0 z-50">
+      <nav className={`shadow-sm sticky top-0 z-50 transition-colors duration-300 ${darkMode ? 'bg-slate-800' : 'bg-white'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="text-2xl font-bold text-slate-800">Ameya Kulkarni</div>
-            
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - Left Side */}
             <div className="hidden md:flex space-x-8">
-              <a href="#about" className="text-slate-600 hover:text-slate-900 transition">About</a>
-              <a href="#projects" className="text-slate-600 hover:text-slate-900 transition">Projects</a>
-              <a href="#contact" className="text-slate-600 hover:text-slate-900 transition">Contact</a>
+              <a href="#about" className={`transition ${darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>About</a>
+              <a href="#projects" className={`transition ${darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>Projects</a>
+              <a href="#contact" className={`transition ${darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>Contact</a>
             </div>
 
-            {/* Mobile menu button */}
+            {/* Mobile menu button - Left Side on Mobile */}
             <button 
-              className="md:hidden"
+              className={`md:hidden ${darkMode ? 'text-slate-300' : 'text-slate-800'}`}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+            
+            {/* Dark Mode Toggle - Right Side */}
+            <button
+              onClick={toggleDarkMode}
+              className={`p-2 rounded-lg transition-colors duration-300 ${
+                darkMode 
+                  ? 'bg-slate-700 text-yellow-400 hover:bg-slate-600' 
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+              }`}
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
           </div>
 
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
             <div className="md:hidden py-4 space-y-3">
-              <a href="#about" className="block text-slate-600 hover:text-slate-900">About</a>
-              <a href="#projects" className="block text-slate-600 hover:text-slate-900">Projects</a>
-              <a href="#contact" className="block text-slate-600 hover:text-slate-900">Contact</a>
+              <a href="#about" className={`block transition ${darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>About</a>
+              <a href="#projects" className={`block transition ${darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>Projects</a>
+              <a href="#contact" className={`block transition ${darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>Contact</a>
             </div>
           )}
         </div>
@@ -60,23 +76,23 @@ const Portfolio = () => {
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
-            Associate Product Manager
+          <h1 className={`text-5xl md:text-6xl font-bold mb-6 transition-colors duration-300 ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+            Ameya
           </h1>
-          <p className="text-xl md:text-2xl text-slate-600 mb-8">
+          <p className={`text-xl md:text-2xl mb-8 transition-colors duration-300 ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
             Building products that solve real problems through user research, data-driven decisions, and cross-functional collaboration.
           </p>
           <div className="flex justify-center space-x-6">
             <a href="https://github.com/ayema99" target="_blank" rel="noopener noreferrer" 
-               className="text-slate-600 hover:text-slate-900 transition">
+               className={`transition ${darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>
               <Github size={28} />
             </a>
-            <a href="https://www.linkedin.com/in/ameya-kulkarni10/" target="_blank" rel="noopener noreferrer"
-               className="text-slate-600 hover:text-slate-900 transition">
+            <a href="https://linkedin.com/in/ameya" target="_blank" rel="noopener noreferrer"
+               className={`transition ${darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>
               <Linkedin size={28} />
             </a>
-            <a href="mailto:ameya8478@gmail.com"
-               className="text-slate-600 hover:text-slate-900 transition">
+            <a href="mailto:ameya@example.com"
+               className={`transition ${darkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>
               <Mail size={28} />
             </a>
           </div>
@@ -84,16 +100,16 @@ const Portfolio = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-16 px-4 bg-white">
+      <section id="about" className={`py-16 px-4 transition-colors duration-300 ${darkMode ? 'bg-slate-800' : 'bg-white'}`}>
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">About Me</h2>
-          <div className="prose prose-lg text-slate-600">
-            <p className="mb-4">
+          <h2 className={`text-3xl font-bold mb-6 transition-colors duration-300 ${darkMode ? 'text-white' : 'text-slate-900'}`}>About Me</h2>
+          <div className="prose prose-lg">
+            <p className={`mb-4 transition-colors duration-300 ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
               I'm an aspiring Associate Product Manager passionate about creating user-centered products. 
               I combine technical skills with strategic thinking to deliver solutions that balance user needs, 
               business goals, and technical feasibility.
             </p>
-            <p>
+            <p className={`transition-colors duration-300 ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
               My approach focuses on deep user research, rapid prototyping, and data-driven iteration. 
               I'm particularly interested in fintech, energy tech, and products that make everyday life easier for UK consumers.
             </p>
@@ -101,11 +117,13 @@ const Portfolio = () => {
 
           {/* Skills */}
           <div className="mt-8">
-            <h3 className="text-xl font-semibold text-slate-900 mb-4">Core Skills</h3>
+            <h3 className={`text-xl font-semibold mb-4 transition-colors duration-300 ${darkMode ? 'text-white' : 'text-slate-900'}`}>Core Skills</h3>
             <div className="flex flex-wrap gap-3">
               {['Product Strategy', 'User Research', 'Data Analysis', 'Wireframing', 'API Integration', 
                 'SQL', 'A/B Testing', 'Stakeholder Management', 'Agile/Scrum', 'React'].map(skill => (
-                <span key={skill} className="px-4 py-2 bg-slate-100 text-slate-700 rounded-full text-sm">
+                <span key={skill} className={`px-4 py-2 rounded-full text-sm transition-colors duration-300 ${
+                  darkMode ? 'bg-slate-700 text-slate-200' : 'bg-slate-100 text-slate-700'
+                }`}>
                   {skill}
                 </span>
               ))}
@@ -117,41 +135,45 @@ const Portfolio = () => {
       {/* Projects Section */}
       <section id="projects" className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-slate-900 mb-10">Projects</h2>
+          <h2 className={`text-3xl font-bold mb-10 transition-colors duration-300 ${darkMode ? 'text-white' : 'text-slate-900'}`}>Projects</h2>
           
           <div className="grid gap-8">
             {projects.map((project, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+              <div key={index} className={`rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 ${
+                darkMode ? 'bg-slate-800' : 'bg-white'
+              }`}>
                 <div className="p-8">
                   <div className="flex items-start justify-between mb-4">
                     <div>
-                      <h3 className="text-2xl font-bold text-slate-900 mb-2">{project.title}</h3>
-                      <p className="text-sm text-slate-500 uppercase tracking-wide">{project.category}</p>
+                      <h3 className={`text-2xl font-bold mb-2 transition-colors duration-300 ${darkMode ? 'text-white' : 'text-slate-900'}`}>{project.title}</h3>
+                      <p className={`text-sm uppercase tracking-wide transition-colors duration-300 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>{project.category}</p>
                     </div>
                     <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
                       {project.status}
                     </span>
                   </div>
 
-                  <p className="text-slate-600 mb-6">{project.description}</p>
+                  <p className={`mb-6 transition-colors duration-300 ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>{project.description}</p>
 
                   <div className="grid md:grid-cols-2 gap-6 mb-6">
                     <div>
-                      <h4 className="font-semibold text-slate-900 mb-2">Problem</h4>
-                      <p className="text-slate-600 text-sm">{project.problem}</p>
+                      <h4 className={`font-semibold mb-2 transition-colors duration-300 ${darkMode ? 'text-white' : 'text-slate-900'}`}>Problem</h4>
+                      <p className={`text-sm transition-colors duration-300 ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>{project.problem}</p>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-slate-900 mb-2">Solution</h4>
-                      <p className="text-slate-600 text-sm">{project.solution}</p>
+                      <h4 className={`font-semibold mb-2 transition-colors duration-300 ${darkMode ? 'text-white' : 'text-slate-900'}`}>Solution</h4>
+                      <p className={`text-sm transition-colors duration-300 ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>{project.solution}</p>
                     </div>
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="font-semibold text-slate-900 mb-3">Target Impact & Metrics</h4>
+                    <h4 className={`font-semibold mb-3 transition-colors duration-300 ${darkMode ? 'text-white' : 'text-slate-900'}`}>Target Impact & Metrics</h4>
                     <div className="grid md:grid-cols-3 gap-4">
                       {project.impact.map((metric, idx) => (
-                        <div key={idx} className="bg-slate-50 p-3 rounded">
-                          <p className="text-sm text-slate-700">{metric}</p>
+                        <div key={idx} className={`p-3 rounded transition-colors duration-300 ${
+                          darkMode ? 'bg-slate-700' : 'bg-slate-50'
+                        }`}>
+                          <p className={`text-sm transition-colors duration-300 ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>{metric}</p>
                         </div>
                       ))}
                     </div>
@@ -168,7 +190,9 @@ const Portfolio = () => {
                   </div>
 
                   <div className="flex flex-wrap gap-4">
-                    <button className="flex items-center space-x-2 px-4 py-2 bg-slate-300 text-slate-600 rounded cursor-not-allowed">
+                    <button className={`flex items-center space-x-2 px-4 py-2 rounded cursor-not-allowed transition-colors duration-300 ${
+                      darkMode ? 'bg-slate-700 text-slate-400' : 'bg-slate-300 text-slate-600'
+                    }`}>
                       <ExternalLink size={16} />
                       <span>Coming Soon</span>
                     </button>
@@ -181,20 +205,28 @@ const Portfolio = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 px-4 bg-white">
+      <section id="contact" className={`py-16 px-4 transition-colors duration-300 ${darkMode ? 'bg-slate-800' : 'bg-white'}`}>
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">Let's Connect</h2>
-          <p className="text-lg text-slate-600 mb-8">
+          <h2 className={`text-3xl font-bold mb-6 transition-colors duration-300 ${darkMode ? 'text-white' : 'text-slate-900'}`}>Let's Connect</h2>
+          <p className={`text-lg mb-8 transition-colors duration-300 ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
             I'm actively seeking Associate Product Manager roles in the UK. 
             Let's chat about how I can contribute to your team.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="mailto:ameya8478@gmail.com" 
-               className="px-8 py-3 bg-slate-900 text-white rounded-lg hover:bg-slate-700 transition">
+            <a href="mailto:ameya@example.com" 
+               className={`px-8 py-3 rounded-lg transition-colors duration-300 ${
+                 darkMode 
+                   ? 'bg-slate-700 text-white hover:bg-slate-600' 
+                   : 'bg-slate-900 text-white hover:bg-slate-700'
+               }`}>
               Email Me
             </a>
-            <a href="https://www.linkedin.com/in/ameya-kulkarni10/" 
-               className="px-8 py-3 border-2 border-slate-900 text-slate-900 rounded-lg hover:bg-slate-50 transition">
+            <a href="https://linkedin.com/in/ameya" 
+               className={`px-8 py-3 rounded-lg transition-colors duration-300 ${
+                 darkMode 
+                   ? 'border-2 border-slate-600 text-slate-300 hover:bg-slate-700' 
+                   : 'border-2 border-slate-900 text-slate-900 hover:bg-slate-50'
+               }`}>
               LinkedIn Profile
             </a>
           </div>
@@ -202,7 +234,7 @@ const Portfolio = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 bg-slate-900 text-white">
+      <footer className={`py-8 px-4 transition-colors duration-300 ${darkMode ? 'bg-slate-950 text-slate-400' : 'bg-slate-900 text-white'}`}>
         <div className="max-w-6xl mx-auto text-center">
           <p>© 2024 Ameya. Built with React and deployed on Vercel.</p>
         </div>
