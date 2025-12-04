@@ -1,8 +1,10 @@
 import React from 'react';
 import { Cpu } from 'lucide-react';
+import PageTransition from '../PageTransition';
 
 const About = ({ darkMode }) => {
   return (
+    <PageTransition>
     <section className="min-h-screen py-20 px-4 relative">
       <div className="max-w-4xl mx-auto">
         <div className={`p-8 rounded-2xl transition-all duration-300 ${
@@ -53,6 +55,7 @@ const About = ({ darkMode }) => {
         </div>
       </div>
     </section>
+    </PageTransition>
   );
 };
 

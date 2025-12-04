@@ -1,7 +1,9 @@
 import React from 'react';
+import PageTransition from '../PageTransition';
 
 const Contact = ({ darkMode }) => {
   return (
+    <PageTransition>
     <section className="min-h-screen flex items-center justify-center px-4 relative">
       <div className="max-w-4xl mx-auto w-full">
         <div className={`p-12 rounded-2xl text-center transition-all duration-300 ${
@@ -39,6 +41,7 @@ const Contact = ({ darkMode }) => {
         </div>
       </div>
     </section>
+    </PageTransition>
   );
 };
 

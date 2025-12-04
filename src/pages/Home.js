@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Mail } from 'lucide-react';
+import PageTransition from '../PageTransition';
 
 const Home = ({ darkMode }) => {
   return (
+     <PageTransition>
     <section className="min-h-screen flex items-center justify-center px-4 relative">
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <h1 className={`text-6xl md:text-7xl font-bold mb-6 pb-2 transition-colors duration-300 ${
@@ -42,6 +44,7 @@ const Home = ({ darkMode }) => {
         </div>
       </div>
     </section>
+    </PageTransition>
   );
 };
 

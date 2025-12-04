@@ -1,5 +1,6 @@
 import React from 'react';
 import { ExternalLink, Zap } from 'lucide-react';
+import PageTransition from '../PageTransition';
 
 const Projects = ({ darkMode }) => {
   const projects = [
@@ -17,6 +18,7 @@ const Projects = ({ darkMode }) => {
   ];
 
   return (
+    <PageTransition>
     <section className="min-h-screen py-20 px-4 relative">
       <div className="max-w-6xl mx-auto">
         <h2 className={`text-3xl font-bold mb-10 transition-colors duration-300 ${
@@ -128,6 +130,7 @@ const Projects = ({ darkMode }) => {
         </div>
       </div>
     </section>
+    </PageTransition>
   );
 };
 
