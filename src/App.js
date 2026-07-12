@@ -6,6 +6,7 @@ import About from './pages/About';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import { AnimatePresence } from 'framer-motion';
+import { Analytics } from '@vercel/analytics/react';
 
 const App = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -152,6 +153,7 @@ const App = () => {
           <p>© 2024 Ameya. Built with React and deployed on Vercel.</p>
         </div>
       </footer>
+      <Analytics />
     </div>
   );
 };
