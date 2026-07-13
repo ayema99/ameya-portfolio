@@ -53,7 +53,7 @@ const About = () => (
             <p>
               I&apos;m an aspiring Associate Product Manager based in the {`UK`}, with a technical
               background spanning machine learning, data analysis and web development. That mix
-              means I don&apos;t just write requirements — I&apos;ve sat on the other side,
+              means I don&apos;t just write requirements. I&apos;ve sat on the other side,
               estimating them, building them, and living with the trade-offs.
             </p>
             <p>
@@ -62,7 +62,7 @@ const About = () => (
               engineer, and finding the one thing worth building that serves all three.
             </p>
             <p>
-              I&apos;m particularly drawn to fintech, energy and AI-powered products — domains
+              I&apos;m particularly drawn to fintech, energy and AI-powered products, domains
               where good data work directly changes what everyday people can do.
             </p>
           </div>
