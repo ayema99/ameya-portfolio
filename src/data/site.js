@@ -5,7 +5,7 @@ const site = {
   role: 'Product Manager',
   tagline: 'turning ambiguous problems into products people actually use.',
   location: 'United Kingdom',
-  email: 'ameya@example.com', // TODO: replace with your real email
+  email: 'ameya8478@gmail.com',
   githubUser: 'ayema99',
   github: 'https://github.com/ayema99',
   linkedin: 'https://www.linkedin.com/in/ameya-kulkarni10/',
