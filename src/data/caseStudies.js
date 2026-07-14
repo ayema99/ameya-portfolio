@@ -17,7 +17,7 @@ const caseStudies = [
       'Single-interaction UX from launch to transcript',
     ],
     skills: ['Product Scoping', 'AI/Voice UX', 'Rapid Prototyping', 'Vercel'],
-    live: 'https://speech-to-text-agent.vercel.app',
+    live: 'https://speech-to-text-agent-git-main-ameya-kulkarnis-projects-88deb18f.vercel.app/',
     featured: true,
   },
   {
