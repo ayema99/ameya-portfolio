@@ -27,16 +27,16 @@ const caseStudies = [
     summary:
       'Trained and shipped a regression model that estimates salaries from experience and role data, packaged as a usable web tool rather than a notebook.',
     problem:
-      'Salary expectations are guesswork for candidates and inconsistent for employers — both sides lack a data-backed reference point.',
+      'Salary expectations are guesswork for candidates and inconsistent for employers, both sides lack a data-backed reference point.',
     approach:
       'Framed it as a decision-support product: cleaned the dataset, benchmarked regression models, then prioritised deploying a simple interface over squeezing out marginal accuracy.',
     outcomes: [
       'End-to-end: from raw data to deployed web app',
       'Model reasoning documented for non-technical users',
-      'Live demo available to anyone with a link',
+      //'Live demo available to anyone with a link',
     ],
     skills: ['Machine Learning', 'Python', 'Data Storytelling', 'Deployment'],
-    live: 'https://salary-prediction-model-two.vercel.app',
+    //live: 'https://salary-prediction-model-two.vercel.app',
     featured: true,
   },
   {
@@ -74,7 +74,7 @@ const caseStudies = [
       'Recommendations tied directly to business levers',
     ],
     skills: ['Linear Regression', 'Feature Analysis', 'Business Framing', 'Python'],
-    live: 'https://linear-regression-boombikes-case-st.vercel.app',
+    //live: 'https://linear-regression-boombikes-case-st.vercel.app',
     featured: false,
   },
   {
@@ -115,7 +115,7 @@ const caseStudies = [
     live: null,
     featured: false,
   },
-  {
+  /*{
     repo: 'RSVP-Movies-Case-study',
     title: 'Mined Film Industry Data in SQL to De-Risk a Studio\u2019s Next Release',
     category: 'SQL Analysis · Market Research',
@@ -133,7 +133,7 @@ const caseStudies = [
     skills: ['SQL', 'Market Analysis', 'Decision Frameworks'],
     live: null,
     featured: false,
-  },
+  },*/
   {
     repo: 'Exploratory-Data-Analysis',
     title: 'Identified Loan Default Risk Drivers Through Exploratory Analysis',
