@@ -43,12 +43,7 @@ const Home = () => {
       <section className="relative flex min-h-[88vh] flex-col justify-center px-5 sm:px-8">
         <div className="mx-auto w-full max-w-6xl">
           <Reveal>
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent dark:text-accent-dark">
-              {site.location} · Open to APM / Product Analyst roles
-            </p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <h1 className="mt-6 max-w-4xl font-display text-5xl font-medium leading-[1.08] text-ink dark:text-white sm:text-6xl lg:text-7xl">
+            <h1 className="max-w-4xl font-display text-5xl font-medium leading-[1.08] text-ink dark:text-white sm:text-6xl lg:text-7xl">
               Hi, I&apos;m {site.firstName} ,<br />
               a <em className="text-accent dark:text-accent-dark">{site.role.toLowerCase()}</em>{' '}
               {site.tagline}
