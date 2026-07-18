@@ -4,6 +4,10 @@ import site from '../data/site';
 import { suggestedPrompts } from '../data/chatPrompts';
 import usePortfolioChat from '../hooks/usePortfolioChat';
 
+function toPlainText(text) {
+  return text.replace(/\*\*/g, '');
+}
+
 function TypingIndicator() {
   return (
     <div className="flex items-center gap-1 px-1 py-2">
@@ -145,7 +149,9 @@ const ChatPanel = ({
                     : 'bg-ink/5 text-ink dark:bg-white/10 dark:text-stone-200'
                 }`}
               >
-                {msg.content || (isLoading && i === messages.length - 1 ? <TypingIndicator /> : null)}
+                {msg.role === 'assistant' && msg.content
+                  ? toPlainText(msg.content)
+                  : msg.content || (isLoading && i === messages.length - 1 ? <TypingIndicator /> : null)}
               </div>
             </div>
           ))}
