@@ -30,7 +30,7 @@ const Home = () => {
 
       {/* Hero */}
 
-      <section className="relative flex min-h-[88vh] flex-col justify-center px-5 sm:px-8">
+      <section className="relative flex min-h-[88vh] flex-col justify-center px-5 pb-20 sm:px-8 sm:pb-24">
 
         <div className="mx-auto w-full max-w-6xl">
 
