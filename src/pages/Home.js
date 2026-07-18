@@ -36,11 +36,11 @@ const Home = () => {
 
           <Reveal>
 
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent dark:text-accent-dark">
+            {/* <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent dark:text-accent-dark">
 
               Product × Data × AI
 
-            </p>
+            </p> */}
 
             <h1 className="mt-4 max-w-4xl font-display text-5xl font-medium leading-[1.08] text-ink dark:text-white sm:text-6xl lg:text-7xl">
 
