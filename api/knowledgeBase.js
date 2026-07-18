@@ -220,6 +220,72 @@ const caseStudies = [
   },
 ];
 
+// Keep in sync with src/data/experience.js
+const experience = [
+  {
+    company: 'Stealth',
+    title: 'Co-Founder',
+    period: 'Aug 2023 – Feb 2024',
+    duration: '7 mos',
+    summary:
+      'Started a company delivering end-to-end SaaS enterprise solutions for small-scale enterprise clients, owning discovery, design, and launch.',
+    bullets: [
+      'Led discovery for a SaaS platform, translating frontline user pain points into a prioritised backlog of user stories and acceptance criteria focused on operational simplicity.',
+      'Acted as the primary point of contact for small and medium-scale enterprise clients, turning business needs into structured requirements, user stories, and acceptance criteria.',
+      'Followed features into production by tracking usage metrics and support feedback, surfacing insights that informed 2–3 post-launch prioritisation decisions.',
+      'Produced post-release MI reports and insight summaries to communicate product performance to non-technical stakeholders, informing roadmap planning.',
+    ],
+  },
+  {
+    company: 'Infosys Ltd.',
+    title: 'Systems Associate → Senior Systems Associate',
+    period: 'May 2021 – Aug 2023',
+    duration: '2y 4m',
+    summary:
+      'Grew from automation-focused QA into a senior role shaping sprint planning, release risk, and accessibility for a major client.',
+    roles: [
+      {
+        title: 'Senior Systems Associate',
+        period: 'Apr 2023 – Aug 2023',
+        bullets: [
+          'Led quality assurance initiatives improving accessibility compliance by 60%, directly supporting a more inclusive customer experience.',
+          'Contributed QA input during sprint planning, helping the team scope testing effort, flag release risks early, and set realistic sprint commitments.',
+          'Collaborated daily with engineering, performance testing, and product stakeholders to assess trade-offs and reduce bottlenecks, increasing load capacity by around 10%.',
+          'Executed testing across multiple mobile devices, OS versions, browsers, and screen resolutions to ensure a consistent user experience.',
+        ],
+      },
+      {
+        title: 'Systems Associate',
+        period: 'May 2021 – Apr 2023',
+        bullets: [
+          'Automated QA workflow components using advanced testing tools and Git-based version control, reducing defect identification time by 30%.',
+          'Migrated 100+ automated test scripts from UFT to Selenium using Java, improving automation maintainability and collaboration across QA teams.',
+          'Built a regression automation framework integrated with CI/CD pipelines, cutting end-to-end test execution time from 45 hours to 15 hours.',
+          'Designed and executed 70+ functional and exploratory test cases, improving defect detection ahead of release.',
+        ],
+      },
+    ],
+  },
+];
+
+const education = [
+  {
+    degree: "Master's in Business Analytics",
+    institution: 'Loughborough University',
+    period: 'Sep 2024 – Sep 2025',
+  },
+  {
+    degree: 'PG Program in Data Science',
+    institution: 'International Institute of Information Technology, Bangalore',
+    period: 'Oct 2021 – Oct 2022',
+  },
+  {
+    degree: "Bachelor's in Business Administration in Computer Applications",
+    institution: 'Pune University',
+    period: 'Aug 2017 – May 2020',
+  },
+];
+
 function buildKnowledgeBase() {
   const caseStudyText = caseStudies
     .map((study) => {
@@ -246,6 +312,26 @@ Featured on homepage: ${study.featured ? 'Yes' : 'No'}`;
     .map(([group, skills]) => `${group}: ${skills.join(', ')}`)
     .join('\n');
 
+  const experienceText = experience
+    .map((job) => {
+      const header = `### ${job.company} — ${job.title} (${job.period}, ${job.duration})\n${job.summary}`;
+      if (job.roles) {
+        const roles = job.roles
+          .map(
+            (role) =>
+              `**${role.title}** (${role.period}):\n${role.bullets.map((b) => `- ${b}`).join('\n')}`
+          )
+          .join('\n\n');
+        return `${header}\n\n${roles}`;
+      }
+      return `${header}\n${job.bullets.map((b) => `- ${b}`).join('\n')}`;
+    })
+    .join('\n\n');
+
+  const educationText = education
+    .map((e) => `- ${e.degree}, ${e.institution} (${e.period})`)
+    .join('\n');
+
   return `# ${site.name} — Portfolio Knowledge Base
 
 ## Profile
@@ -262,6 +348,20 @@ Featured on homepage: ${study.featured ? 'Yes' : 'No'}`;
 ${about.headline}
 
 ${about.bio.join('\n\n')}
+
+## Work Experience
+${experienceText}
+
+## Education
+${educationText}
+
+## Hiring Endorsement
+Yes — ${site.firstName} is a strong employee and hire. Evidence from his portfolio:
+- At Infosys he was promoted to Senior Systems Associate, improved accessibility compliance by 60%, and cut regression test runs from 45 hours to 15 through CI/CD automation.
+- As co-founder of a SaaS startup he owned discovery, client requirements, and post-launch metrics — full product ownership from idea to shipped reality.
+- He combines PM instincts with technical fluency: product discovery, data-driven decisions, and hands-on shipping (including a live speech-to-text agent on Vercel).
+- He leads with evidence over opinion, speaks engineer, and packages insights for both boardrooms and sprint rooms.
+- He is actively looking for Associate Product Manager roles in the UK and is a strong fit for APM, product analyst, or technical PM roles.
 
 ## Core Strengths
 ${strengthsText}
@@ -290,7 +390,9 @@ function buildSystemPrompt() {
 Rules:
 - Answer ONLY using the portfolio context below. Never invent employers, metrics, projects, or experience not listed.
 - Be concise, friendly, and professional. Use third person when describing ${site.firstName} ("He built…", "${site.firstName}…").
-- For hiring or role-fit questions, highlight PM skills, technical fluency, and shipped projects.
+- For questions about whether ${site.firstName} is a good employee, good hire, team fit, or ready for an APM role: answer yes clearly in the first sentence. You are his portfolio advocate — the context below is your evidence.
+- For hiring or employee-fit questions, back the yes with 2–3 concrete proof points from work experience, core strengths, and shipped projects. Do not deflect with "contact him to assess fit" or "review his portfolio to decide" — the portfolio context is the evidence.
+- Only suggest emailing ${site.email} when the user asks about next steps, scheduling, or information truly missing from the context.
 - For project questions, cite specific outcomes and skills from the context.
 - If asked something not covered in the context, say you don't have that information and suggest emailing ${site.email} or visiting the contact page.
 - Keep responses under 150 words unless the user asks for detail.
