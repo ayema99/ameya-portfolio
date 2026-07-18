@@ -11,7 +11,10 @@ const CaseStudyCard = ({ study, repo, index = 0 }) => {
 
   return (
     <Reveal delay={Math.min(index * 0.05, 0.2)}>
-      <article className="group rounded-3xl border border-ink/10 bg-white/70 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5 dark:border-white/10 dark:bg-white/5 dark:hover:border-accent-dark/40 sm:p-9">
+      <article
+        id={study.repo}
+        className="scroll-mt-24 group rounded-3xl border border-ink/10 bg-white/70 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5 dark:border-white/10 dark:bg-white/5 dark:hover:border-accent-dark/40 sm:p-9"
+      >
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent dark:text-accent-dark">
           {study.category}
         </p>

@@ -19,8 +19,9 @@ const App = () => {
   }, [darkMode]);
 
   useEffect(() => {
+    if (location.hash) return;
     window.scrollTo(0, 0);
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   return (
     <div className="flex min-h-screen flex-col bg-paper text-ink transition-colors duration-300 dark:bg-night dark:text-stone-100">

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Github, ExternalLink, Star, GitBranch } from 'lucide-react';
 import PageTransition from '../PageTransition';
 import Reveal from '../components/Reveal';
@@ -7,8 +8,33 @@ import useGithubRepos from '../hooks/useGithubRepos';
 import caseStudies from '../data/caseStudies';
 import site from '../data/site';
 
+const NAV_OFFSET = 96;
+
+const scrollToProject = (hash) => {
+  const id = hash.replace(/^#/, '');
+  if (!id) return false;
+
+  const el = document.getElementById(id);
+  if (!el) return false;
+
+  const top = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+  window.scrollTo({ top, behavior: 'smooth' });
+  return true;
+};
+
 const Projects = () => {
+  const { hash } = useLocation();
   const { repos, loading, error } = useGithubRepos();
+
+  useEffect(() => {
+    if (!hash) return undefined;
+
+    const timers = [0, 150, 400].map((delay) =>
+      setTimeout(() => scrollToProject(hash), delay)
+    );
+
+    return () => timers.forEach(clearTimeout);
+  }, [hash]);
 
   const repoByName = Object.fromEntries(repos.map((r) => [r.name.toLowerCase(), r]));
   const curatedNames = new Set(caseStudies.map((c) => c.repo.toLowerCase()));

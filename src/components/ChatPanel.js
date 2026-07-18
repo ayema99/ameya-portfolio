@@ -27,11 +27,16 @@ const ChatPanel = ({
 }) => {
   const { messages, isLoading, error, sendMessage, clearChat } = usePortfolioChat();
   const [input, setInput] = useState('');
-  const messagesEndRef = useRef(null);
+  const scrollRef = useRef(null);
   const initialSentRef = useRef(false);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messages.length === 0 && !isLoading) return;
+
+    const container = scrollRef.current;
+    if (!container) return;
+
+    container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
   }, [messages, isLoading]);
 
   useEffect(() => {
@@ -99,7 +104,10 @@ const ChatPanel = ({
         </div>
       )}
 
-      <div className={`flex-1 overflow-y-auto ${isCompact ? 'px-4 py-4' : 'px-5 py-5'}`}>
+      <div
+        ref={scrollRef}
+        className={`flex-1 overflow-y-auto ${isCompact ? 'px-4 py-4' : 'px-5 py-5'}`}
+      >
         {messages.length === 0 && !isLoading && (
           <div className="space-y-4">
             <div className="flex items-start gap-3">
@@ -149,7 +157,6 @@ const ChatPanel = ({
             </div>
           )}
         </div>
-        <div ref={messagesEndRef} />
       </div>
 
       {error && (
