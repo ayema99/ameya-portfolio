@@ -2,6 +2,7 @@ import site from './site';
 import caseStudies from './caseStudies';
 import strengths from './strengths';
 import about from './about';
+import { experience, education } from './experience';
 
 export function buildKnowledgeBase() {
   const caseStudyText = caseStudies
@@ -35,6 +36,26 @@ Featured on homepage: ${study.featured ? 'Yes' : 'No'}`;
     .map(([group, skills]) => `${group}: ${skills.join(', ')}`)
     .join('\n');
 
+  const experienceText = experience
+    .map((job) => {
+      const header = `### ${job.company} — ${job.title} (${job.period}, ${job.duration})\n${job.summary}`;
+      if (job.roles) {
+        const roles = job.roles
+          .map(
+            (role) =>
+              `**${role.title}** (${role.period}):\n${role.bullets.map((b) => `- ${b}`).join('\n')}`
+          )
+          .join('\n\n');
+        return `${header}\n\n${roles}`;
+      }
+      return `${header}\n${job.bullets.map((b) => `- ${b}`).join('\n')}`;
+    })
+    .join('\n\n');
+
+  const educationText = education
+    .map((e) => `- ${e.degree}, ${e.institution} (${e.period})`)
+    .join('\n');
+
   return `# ${site.name} — Portfolio Knowledge Base
 
 ## Profile
@@ -51,6 +72,12 @@ Featured on homepage: ${study.featured ? 'Yes' : 'No'}`;
 ${about.headline}
 
 ${about.bio.join('\n\n')}
+
+## Work Experience
+${experienceText}
+
+## Education
+${educationText}
 
 ## Core Strengths
 ${strengthsText}

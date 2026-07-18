@@ -4,7 +4,9 @@ import { ArrowRight } from 'lucide-react';
 import PageTransition from '../PageTransition';
 import Reveal from '../components/Reveal';
 import Marquee from '../components/Marquee';
+import ExperienceAccordion from '../components/ExperienceAccordion';
 import about from '../data/about';
+import { experience, education } from '../data/experience';
 
 const { process, toolkit } = about;
 
@@ -54,6 +56,53 @@ const About = () => (
                   </h3>
                   <p className="mt-2 leading-relaxed text-ink/65 dark:text-stone-400">{p.body}</p>
                 </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* Experience */}
+    <section className="border-t border-ink/10 px-5 py-24 dark:border-white/10 sm:px-8">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent dark:text-accent-dark">
+            Experience
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-medium text-ink dark:text-white sm:text-4xl">
+            From QA foundations to product ownership.
+          </h2>
+          <p className="mt-4 text-sm text-ink/50 dark:text-stone-500">
+            Click a role to expand ↓
+          </p>
+        </Reveal>
+        <div className="mt-12">
+          <ExperienceAccordion items={experience} />
+        </div>
+      </div>
+    </section>
+
+    {/* Education */}
+    <section className="border-t border-ink/10 px-5 py-24 dark:border-white/10 sm:px-8">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent dark:text-accent-dark">
+            Education
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-medium text-ink dark:text-white sm:text-4xl">
+            Where the analytical toolkit comes from.
+          </h2>
+        </Reveal>
+        <div className="mt-12 grid gap-5 sm:grid-cols-3">
+          {education.map((e, i) => (
+            <Reveal key={e.degree} delay={i * 0.08}>
+              <div className="flex h-full flex-col rounded-3xl border border-ink/10 p-7 transition-colors hover:border-accent/40 dark:border-white/10 dark:hover:border-accent-dark/40">
+                <p className="text-sm text-ink/50 dark:text-stone-500">{e.period}</p>
+                <h3 className="mt-3 font-display text-xl font-semibold leading-snug text-ink dark:text-white">
+                  {e.degree}
+                </h3>
+                <p className="mt-2 text-ink/65 dark:text-stone-400">{e.institution}</p>
               </div>
             </Reveal>
           ))}
