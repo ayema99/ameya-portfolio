@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { Menu, X, Moon, Sun } from 'lucide-react';
+import { Menu, X, Moon, Sun, MessageCircle } from 'lucide-react';
 import site from '../data/site';
+import { useChatContext } from '../context/ChatContext';
 
 const links = [
   { to: '/', label: 'Home' },
@@ -12,6 +13,7 @@ const links = [
 
 const Navbar = ({ darkMode, toggleDarkMode }) => {
   const [open, setOpen] = useState(false);
+  const { openChat } = useChatContext();
 
   const linkClass = ({ isActive }) =>
     `text-sm font-medium tracking-wide transition-colors ${
@@ -41,6 +43,14 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
         </nav>
 
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={openChat}
+            className="hidden items-center gap-1.5 rounded-full border border-ink/15 px-4 py-1.5 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-white/15 dark:text-stone-200 dark:hover:border-accent-dark dark:hover:text-accent-dark md:flex"
+          >
+            <MessageCircle size={15} />
+            Chat with AI
+          </button>
           <a
             href={site.github}
             target="_blank"
@@ -85,6 +95,17 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
               {l.label}
             </NavLink>
           ))}
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              openChat();
+            }}
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 font-display text-lg text-ink/80 dark:text-stone-300"
+          >
+            <MessageCircle size={18} />
+            Chat with AI
+          </button>
         </nav>
       )}
     </header>

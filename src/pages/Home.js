@@ -1,77 +1,65 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowDown } from 'lucide-react';
+import { ArrowRight, ArrowDown, ArrowUpRight } from 'lucide-react';
 import PageTransition from '../PageTransition';
 import Reveal from '../components/Reveal';
 import Marquee from '../components/Marquee';
+import HeroChat from '../components/HeroChat';
+import { useChatContext } from '../context/ChatContext';
 import site from '../data/site';
 import caseStudies from '../data/caseStudies';
-
-const strengths = [
-  {
-    title: 'Product Discovery',
-    body: 'I start with the problem, not the feature. Research, user conversations and data decide what gets built — assumptions don\u2019t.',
-  },
-  {
-    title: 'Data-Driven Decisions',
-    body: 'SQL, Python and analytics are part of my toolkit, so I can pull the evidence myself instead of waiting for a report.',
-  },
-  {
-    title: 'AI & Emerging Tech',
-    body: 'From speech interfaces to deep learning models, I\u2019ve built with AI hands-on — which means I can scope it realistically.',
-  },
-  {
-    title: 'Prototyping & Shipping',
-    body: 'I take ideas to deployed products myself. A live link beats a slide deck in every stakeholder conversation.',
-  },
-  {
-    title: 'Storytelling',
-    body: 'The same insight lands differently in a boardroom and a sprint room. I package analysis for the audience in front of me.',
-  },
-  {
-    title: 'Technical Fluency',
-    body: 'I speak engineer. APIs, models and trade-offs are conversations I can hold, which keeps estimates honest and scope tight.',
-  },
-];
+import strengths from '../data/strengths';
 
 const Home = () => {
   const featured = caseStudies.filter((c) => c.featured);
+  const { openChat } = useChatContext();
 
   return (
     <PageTransition>
       {/* Hero */}
       <section className="relative flex min-h-[88vh] flex-col justify-center px-5 sm:px-8">
-        <div className="mx-auto w-full max-w-6xl">
-          <Reveal>
-            <h1 className="max-w-4xl font-display text-5xl font-medium leading-[1.08] text-ink dark:text-white sm:text-6xl lg:text-7xl">
-              Hi, I&apos;m {site.firstName} ,<br />
-              a <em className="text-accent dark:text-accent-dark">{site.role.toLowerCase()}</em>{' '}
-              {site.tagline}
-            </h1>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-ink/70 dark:text-stone-400">
-              I combine user research, data analysis and hands-on technical skills to take products
-              from ambiguous idea to shipped reality. Everything below is real, built by me, and
-              live on GitHub.
-            </p>
-          </Reveal>
-          <Reveal delay={0.3}>
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Link
-                to="/projects"
-                className="group flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 font-medium text-paper transition-all hover:bg-accent dark:bg-white dark:text-night dark:hover:bg-accent-dark"
-              >
-                See my work
-                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-              </Link>
-              <Link
-                to="/contact"
-                className="rounded-full border border-ink/20 px-7 py-3.5 font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-white/20 dark:text-white dark:hover:border-accent-dark dark:hover:text-accent-dark"
-              >
-                Get in touch
-              </Link>
-            </div>
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1fr_minmax(0,400px)] lg:gap-16">
+          <div>
+            <Reveal>
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent dark:text-accent-dark">
+                Product × Data × AI
+              </p>
+              <h1 className="mt-4 max-w-4xl font-display text-5xl font-medium leading-[1.08] text-ink dark:text-white sm:text-6xl lg:text-7xl">
+                Hi, I&apos;m {site.firstName} ,<br />
+                a <em className="text-accent dark:text-accent-dark">{site.role.toLowerCase()}</em>{' '}
+                {site.tagline}
+              </h1>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="mt-8 max-w-2xl text-lg leading-relaxed text-ink/70 dark:text-stone-400">
+                I combine user research, data analysis and hands-on technical skills to take products
+                from ambiguous idea to shipped reality. Everything below is real, built by me, and
+                live on GitHub.
+              </p>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <div className="mt-10 flex flex-wrap items-center gap-4">
+                <button
+                  type="button"
+                  onClick={openChat}
+                  className="group flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 font-medium text-paper transition-all hover:bg-accent dark:bg-white dark:text-night dark:hover:bg-accent-dark"
+                >
+                  Talk to my AI
+                  <ArrowUpRight size={18} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </button>
+                <Link
+                  to="/projects"
+                  className="group flex items-center gap-2 rounded-full border border-ink/20 px-7 py-3.5 font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-white/20 dark:text-white dark:hover:border-accent-dark dark:hover:text-accent-dark"
+                >
+                  See my work
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.15} className="hidden lg:block">
+            <HeroChat />
           </Reveal>
         </div>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-ink/40 dark:text-stone-600">
@@ -186,13 +174,22 @@ const Home = () => {
             <h2 className="mx-auto max-w-3xl font-display text-4xl font-medium italic text-ink dark:text-white sm:text-5xl">
               Curious what I&apos;d do with your product?
             </h2>
-            <Link
-              to="/contact"
-              className="group mt-10 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-medium text-white transition-all hover:bg-ink dark:hover:bg-white dark:hover:text-night"
-            >
-              Let&apos;s talk
-              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-            </Link>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+              <button
+                type="button"
+                onClick={openChat}
+                className="group inline-flex items-center gap-2 rounded-full bg-accent px-8 py-4 font-medium text-white transition-all hover:bg-ink dark:hover:bg-white dark:hover:text-night"
+              >
+                Chat with my AI
+                <ArrowUpRight size={18} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </button>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 rounded-full border border-ink/20 px-8 py-4 font-medium text-ink transition-colors hover:border-accent hover:text-accent dark:border-white/20 dark:text-white dark:hover:border-accent-dark dark:hover:text-accent-dark"
+              >
+                Get in touch
+              </Link>
+            </div>
           </Reveal>
         </div>
       </section>

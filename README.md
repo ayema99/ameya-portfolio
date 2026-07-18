@@ -1,70 +1,78 @@
-# Getting Started with Create React App
+# Ameya Kulkarni — Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Personal portfolio site built with Create React App, React Router, Tailwind CSS, and Framer Motion.
 
-## Available Scripts
+## Scripts
 
-In the project directory, you can run:
+| Command | Description |
+|---------|-------------|
+| `npm start` | Run the React app only (no AI chat API) |
+| `npm run build` | Production build to `build/` |
+| `npm test` | Run tests |
+| `npm run dev:chat` | Run app + `/api/chat` locally via Vercel (requires setup below) |
 
-### `npm start`
+## AI Chat Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The portfolio includes a Dharmesh-style "Chat with AI" feature powered by [Groq](https://groq.com) (free tier). The API key stays on the server — never in the React bundle.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 1. Get a free Groq API key
 
-### `npm test`
+1. Sign up at [console.groq.com](https://console.groq.com)
+2. Create an API key
+3. Copy `.env.example` to `.env.local` and add your key:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+cp .env.example .env.local
+# Edit .env.local:
+GROQ_API_KEY=gsk_your_key_here
+```
 
-### `npm run build`
+### 2. Local development with chat
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Easiest option (no Vercel login):**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm run dev:local
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This starts:
+- React app at [http://localhost:3000](http://localhost:3000)
+- Local chat API at [http://localhost:3001/api/chat](http://localhost:3001/api/chat) (proxied automatically)
 
-### `npm run eject`
+**Alternative (Vercel CLI — requires one-time login):**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm run dev:chat
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Use this if you want production-like Vercel serverless behavior locally.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 3. Deploy to Vercel
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Push this repo to GitHub
+2. Import the project in [vercel.com](https://vercel.com)
+3. Add environment variable: `GROQ_API_KEY` = your Groq key
+4. Deploy — Vercel reads [`vercel.json`](vercel.json) for the CRA build and API routes
+
+### How it works
+
+- **Frontend:** `ChatWidget` (floating bubble), `HeroChat` (homepage preview), suggested prompts
+- **Backend:** [`api/chat.js`](api/chat.js) streams responses from Groq Llama 3.3 70B
+- **Knowledge:** Portfolio content from [`src/data/`](src/data/) is injected into the system prompt (no vector DB needed at this scale)
+- **Rate limit:** 20 requests per IP per hour (best-effort on serverless)
+
+### Updating portfolio content for the AI
+
+Edit these files — the site and AI knowledge base stay in sync:
+
+- [`src/data/site.js`](src/data/site.js) — name, role, contact
+- [`src/data/caseStudies.js`](src/data/caseStudies.js) — projects
+- [`src/data/about.js`](src/data/about.js) — bio, process, toolkit
+- [`src/data/strengths.js`](src/data/strengths.js) — strengths
+
+Also update [`api/knowledgeBase.js`](api/knowledgeBase.js) if you change case studies (server-side copy used by the API).
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Create React App docs](https://facebook.github.io/create-react-app/docs/getting-started)
+- [Vercel serverless functions](https://vercel.com/docs/functions)
