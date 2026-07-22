@@ -1,135 +1,153 @@
-import React from 'react';
-import { ExternalLink, Zap } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Github, ExternalLink, Star, GitBranch } from 'lucide-react';
 import PageTransition from '../PageTransition';
+import Reveal from '../components/Reveal';
+import CaseStudyCard from '../components/CaseStudyCard';
+import useGithubRepos from '../hooks/useGithubRepos';
+import caseStudies from '../data/caseStudies';
+import site from '../data/site';
 
-const Projects = ({ darkMode }) => {
-  const projects = [
-    {
-      title: "Energy Bill Tracker",
-      category: "API Integration • Data Visualization",
-      description: "A web application that helps UK households track energy usage and compare tariffs, built with Octopus Energy API. Enables users to identify potential savings of £200+ annually.",
-      problem: "UK energy bills are confusing, and consumers struggle to know if they're on the best tariff.",
-      solution: "Real-time usage tracking, tariff comparison, and personalized savings recommendations.",
-      impact: ["40% reduction in bill-checking time", "Average £180 annual savings identified", "Processed 10K+ API calls"],
-      skills: ["API Integration", "Data Visualization", "User Research", "React"],
-      status: "In Progress",
-      icon: <Zap className="w-6 h-6" />
-    }
-  ];
+const NAV_OFFSET = 96;
+
+const scrollToProject = (hash) => {
+  const id = hash.replace(/^#/, '');
+  if (!id) return false;
+
+  const el = document.getElementById(id);
+  if (!el) return false;
+
+  const top = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+  window.scrollTo({ top, behavior: 'smooth' });
+  return true;
+};
+
+const Projects = () => {
+  const { hash } = useLocation();
+  const { repos, loading, error } = useGithubRepos();
+
+  useEffect(() => {
+    if (!hash) return undefined;
+
+    const timers = [0, 150, 400].map((delay) =>
+      setTimeout(() => scrollToProject(hash), delay)
+    );
+
+    return () => timers.forEach(clearTimeout);
+  }, [hash]);
+
+  const repoByName = Object.fromEntries(repos.map((r) => [r.name.toLowerCase(), r]));
+  const curatedNames = new Set(caseStudies.map((c) => c.repo.toLowerCase()));
+
+  // Repos on GitHub that don't have a written case study yet.
+  const otherRepos = repos.filter(
+    (r) => !curatedNames.has(r.name.toLowerCase()) && r.name !== 'ameya-portfolio'
+  );
 
   return (
     <PageTransition>
-    <section className="min-h-screen py-20 px-4 relative">
-      <div className="max-w-6xl mx-auto">
-        <h2 className={`text-3xl font-bold mb-10 transition-colors duration-300 ${
-          darkMode ? 'text-white' : 'text-slate-900'
-        }`}>Projects</h2>
-        
-        <div className="grid gap-8">
-          {projects.map((project, index) => (
-            <div key={index} className={`rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] ${
-              darkMode 
-                ? 'bg-gradient-to-br from-slate-900/50 to-black/50 backdrop-blur-xl border border-slate-800/50 hover:border-slate-700/50' 
-                : 'bg-white/50 backdrop-blur-xl border border-slate-200/50 hover:border-orange-400/50 shadow-xl'
-            }`}>
-              <div className="p-8">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <div className={`p-2 rounded-lg ${
-                      darkMode 
-                        ? 'bg-slate-800/50 text-slate-400' 
-                        : 'bg-gradient-to-br from-orange-100 to-rose-100 text-orange-600'
-                    }`}>
-                      {project.icon}
-                    </div>
-                    <div>
-                      <h3 className={`text-2xl font-bold transition-colors duration-300 ${
-                        darkMode ? 'text-white' : 'text-slate-900'
-                      }`}>{project.title}</h3>
-                      <p className={`text-sm uppercase tracking-wide transition-colors duration-300 ${
-                        darkMode ? 'text-slate-400' : 'text-slate-500'
-                      }`}>{project.category}</p>
-                    </div>
-                  </div>
-                  <span className="px-4 py-1.5 bg-gradient-to-r from-slate-700 to-slate-600 text-white rounded-full text-sm font-medium">
-                    {project.status}
-                  </span>
-                </div>
+      <section className="px-5 pb-24 pt-20 sm:px-8">
+        <div className="mx-auto max-w-6xl">
+          <Reveal>
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent dark:text-accent-dark">
+              Projects
+            </p>
+            <h1 className="mt-4 max-w-3xl font-display text-4xl font-medium leading-tight text-ink dark:text-white sm:text-5xl">
+              Case studies, not just repositories.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink/70 dark:text-stone-400">
+              Every project below is framed the way I&apos;d frame it as a PM — the problem, the
+              approach, and what came out of it. The code, stars and last-updated dates are pulled
+              live from my GitHub.
+            </p>
+            {error && (
+              <p className="mt-4 text-sm text-ink/50 dark:text-stone-500">
+                Live GitHub stats are unavailable right now — repo links below still work via my{' '}
+                <a
+                  href={site.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                >
+                  GitHub profile
+                </a>
+                .
+              </p>
+            )}
+          </Reveal>
 
-                <p className={`mb-6 transition-colors duration-300 ${
-                  darkMode ? 'text-slate-300' : 'text-slate-600'
-                }`}>{project.description}</p>
+          <div className="mt-14 space-y-8">
+            {caseStudies.map((study, i) => (
+              <CaseStudyCard
+                key={study.repo}
+                study={study}
+                repo={repoByName[study.repo.toLowerCase()]}
+                index={i}
+              />
+            ))}
+          </div>
 
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <div className={`p-4 rounded-xl ${
-                    darkMode ? 'bg-slate-800/50' : 'bg-slate-50'
-                  }`}>
-                    <h4 className={`font-semibold mb-2 transition-colors duration-300 ${
-                      darkMode ? 'text-slate-400' : 'text-orange-600'
-                    }`}>Problem</h4>
-                    <p className={`text-sm transition-colors duration-300 ${
-                      darkMode ? 'text-slate-300' : 'text-slate-600'
-                    }`}>{project.problem}</p>
-                  </div>
-                  <div className={`p-4 rounded-xl ${
-                    darkMode ? 'bg-slate-800/50' : 'bg-slate-50'
-                  }`}>
-                    <h4 className={`font-semibold mb-2 transition-colors duration-300 ${
-                      darkMode ? 'text-slate-400' : 'text-rose-600'
-                    }`}>Solution</h4>
-                    <p className={`text-sm transition-colors duration-300 ${
-                      darkMode ? 'text-slate-300' : 'text-slate-600'
-                    }`}>{project.solution}</p>
-                  </div>
-                </div>
+          {/* Everything else on GitHub */}
+          {(loading || otherRepos.length > 0) && (
+            <div className="mt-24">
+              <Reveal>
+                <h2 className="font-display text-3xl font-medium text-ink dark:text-white">
+                  More on GitHub
+                </h2>
+                <p className="mt-3 max-w-2xl text-ink/60 dark:text-stone-400">
+                  Experiments and works-in-progress, straight from my public repositories.
+                </p>
+              </Reveal>
 
-                <div className="mb-6">
-                  <h4 className={`font-semibold mb-3 transition-colors duration-300 ${
-                    darkMode ? 'text-white' : 'text-slate-900'
-                  }`}>Target Impact & Metrics</h4>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    {project.impact.map((metric, idx) => (
-                      <div key={idx} className={`p-4 rounded-xl transition-colors duration-300 ${
-                        darkMode ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-slate-50 border border-slate-200'
-                      }`}>
-                        <p className={`text-sm font-medium transition-colors duration-300 ${
-                          darkMode ? 'text-slate-300' : 'text-slate-700'
-                        }`}>{metric}</p>
+              <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {loading &&
+                  Array.from({ length: 3 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="h-44 animate-pulse rounded-2xl border border-ink/10 bg-ink/5 dark:border-white/10 dark:bg-white/5"
+                    />
+                  ))}
+                {otherRepos.map((repo, i) => (
+                  <Reveal key={repo.name} delay={(i % 3) * 0.06}>
+                    <a
+                      href={repo.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex h-full flex-col rounded-2xl border border-ink/10 bg-white/70 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 dark:border-white/10 dark:bg-white/5 dark:hover:border-accent-dark/40"
+                    >
+                      <div className="flex items-center justify-between">
+                        <Github size={18} className="text-ink/50 dark:text-stone-500" />
+                        <ExternalLink
+                          size={15}
+                          className="text-ink/30 transition-colors group-hover:text-accent dark:text-stone-600 dark:group-hover:text-accent-dark"
+                        />
                       </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <div className="flex flex-wrap gap-2">
-                    {project.skills.map((skill, idx) => (
-                      <span key={idx} className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
-                        darkMode 
-                          ? 'bg-slate-800/50 text-slate-400 border border-slate-700/30' 
-                          : 'bg-orange-50 text-orange-700 border border-orange-200'
-                      }`}>
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-4">
-                  <button className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
-                    darkMode 
-                      ? 'bg-slate-800/50 text-slate-400 border border-slate-700/50' 
-                      : 'bg-slate-100 text-slate-600 border border-slate-200'
-                  }`}>
-                    <ExternalLink size={16} />
-                    <span>Coming Soon</span>
-                  </button>
-                </div>
+                      <h3 className="mt-4 font-display text-lg font-semibold text-ink dark:text-white">
+                        {repo.name.replace(/-/g, ' ')}
+                      </h3>
+                      <p className="mt-2 flex-1 text-sm text-ink/60 dark:text-stone-400">
+                        {repo.description || 'No description yet — the code speaks for itself.'}
+                      </p>
+                      <div className="mt-4 flex items-center gap-4 text-xs text-ink/50 dark:text-stone-500">
+                        {repo.language && (
+                          <span className="flex items-center gap-1.5">
+                            <GitBranch size={12} /> {repo.language}
+                          </span>
+                        )}
+                        {repo.stars > 0 && (
+                          <span className="flex items-center gap-1.5">
+                            <Star size={12} /> {repo.stars}
+                          </span>
+                        )}
+                      </div>
+                    </a>
+                  </Reveal>
+                ))}
               </div>
             </div>
-          ))}
+          )}
         </div>
-      </div>
-    </section>
+      </section>
     </PageTransition>
   );
 };
