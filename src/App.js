@@ -8,6 +8,8 @@ import About from './pages/About';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import Chat from './pages/Chat';
+import { SpeedInsights } from '@vercel/speed-insights/react';
+
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
@@ -40,6 +42,7 @@ const App = () => {
       </main>
 
       <Footer />
+      <SpeedInsights />
     </div>
   );
 };

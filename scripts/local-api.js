@@ -39,6 +39,48 @@ function readBody(req) {
   });
 }
 
+function wrapResponse(res) {
+  let statusCode = 200;
+  const headers = {};
+
+  const wrapped = {
+    get headersSent() {
+      return res.headersSent || res.writableEnded;
+    },
+    setHeader(name, value) {
+      headers[name] = value;
+      if (res.headersSent || res.writableEnded) return;
+      res.setHeader(name, value);
+    },
+    write(chunk) {
+      if (!wrapped.headersSent) {
+        res.writeHead(statusCode, headers);
+      }
+      return res.write(chunk);
+    },
+    end(data) {
+      if (!wrapped.headersSent) {
+        res.writeHead(statusCode, headers);
+      }
+      return res.end(data);
+    },
+    status(code) {
+      statusCode = code;
+      return {
+        json(payload) {
+          wrapped.setHeader('Content-Type', 'application/json');
+          wrapped.end(JSON.stringify(payload));
+        },
+        end(data) {
+          wrapped.end(data);
+        },
+      };
+    },
+  };
+
+  return wrapped;
+}
+
 const server = http.createServer(async (req, res) => {
   if (req.method === 'OPTIONS') {
     res.writeHead(204, {
@@ -59,7 +101,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     try {
-      await chatHandler(req, res);
+      await chatHandler(req, wrapResponse(res));
     } catch (err) {
       console.error('Local API error:', err);
       if (!res.headersSent) {
