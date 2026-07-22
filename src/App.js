@@ -8,6 +8,7 @@ import About from './pages/About';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import Chat from './pages/Chat';
+import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
 
@@ -43,6 +44,7 @@ const App = () => {
 
       <Footer />
       <SpeedInsights />
+      <Analytics />
     </div>
   );
 };
